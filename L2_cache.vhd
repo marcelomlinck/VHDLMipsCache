@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Company: Insight
--- Engineer: Bruno Scherer Oliveira / Ricardo Aquino Guazzelli
+-- Engineer: Marcelo Linck
 -- 
 -- Create Date:    01:07:15 05/08/2011 
 -- Module Name:    L2_cache - cache 
@@ -21,12 +21,12 @@ use work.CachePackage.ALL;
 
 entity L2_cache is
 	generic (
-		START_A: 			reg32 := (others => '0') --endereço inicial
+		START_A: 			reg32 := (others => '0') --endereÃ§o inicial
 	);
 	port(
 		address:  				in 	reg32; --PC
 		block_L1:				out	reg128; --Passa os dados para L1
-		block_MP:				in		reg32; --Recebe os dados da memória principal
+		block_MP:				in		reg32; --Recebe os dados da memÃ³ria principal
 		ce_n,we_n,oe_n: 		in		STD_LOGIC; --ce, we e oe
 		hit:						out   STD_LOGIC --hit/miss
 	);
@@ -50,13 +50,13 @@ begin
 	-- -> block_MP = a entire block from MP (8 words)
 	------------------------------------------------------------------------------------
 
-	tmp_address <= address - START_A; --endereço temporário recebe endereço do PC - endereço inicial
+	tmp_address <= address - START_A; --endereÃ§o temporÃ¡rio recebe endereÃ§o do PC - endereÃ§o inicial
 
 	block_L1 <= switch_block; --Passa os dados para L1
 	
 	-- indicates if had a hit or miss (equal tags and bit valid = '1')
 	hit <= '1' when ( (RAM(CONV_INTEGER(tmp_address(8 downto 5)))(278 downto 256) = address(31 downto 9)) and (tmp_line(279) = '1') ) else '0';
-	--Se a tag da cache for igual à tag do PC e o bit de validade for 1, hit, senão miss
+	--Se a tag da cache for igual Ã  tag do PC e o bit de validade for 1, hit, senÃ£o miss
 	
 	-- mux to switch blocks
 	switch_block <= tmp_line(127 downto 0) when address(4 downto 2) >= "100" else
