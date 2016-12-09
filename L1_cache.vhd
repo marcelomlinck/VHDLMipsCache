@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Company: Insight
--- Engineer: Bruno Scherer Oliveira / Ricardo Aquino Guazzelli
+-- Engineer: Marcelo Linck
 -- 
 -- Create Date:    21:18:05 05/07/2011 
 -- Module Name:    MEM_cache - cache 
@@ -21,14 +21,14 @@ use work.CachePackage.ALL;
 
 entity L1_cache is
 	generic ( 
-		START_A: 			reg32 := (others => '0') --endereço inicial
+		START_A: 			reg32 := (others => '0') --endereÃ§o inicial
 	);
 	port(
 		address:  				in 	reg32; --PC
 		data:		 				out	reg32; --Dado
 		block_L2:				in		reg128; --Recebe os dados de L2
 		ce_n,we_n,oe_n:	 	in		STD_LOGIC; --ce, oe e we
-		hit,tx:					out   STD_LOGIC --hit/miss e um sinal aparentemente inútil
+		hit,tx:					out   STD_LOGIC --hit/miss e um sinal aparentemente inÃºtil
 	);
 end L1_cache;
 
@@ -48,14 +48,14 @@ begin
 	-- -> block_L2 = a entire block from L2 (4 words)
 	------------------------------------------------------------------------------------
 
-	tmp_address <= address - START_A; --O endereço temporário recebe o endereço do PC menos o inicial do MIPS
+	tmp_address <= address - START_A; --O endereÃ§o temporÃ¡rio recebe o endereÃ§o do PC menos o inicial do MIPS
 	
 	-- get cache line
-	tmp_line <= RAM(CONV_INTEGER(tmp_address(5 downto 4))); --Acha a linha pelo endereço do PC
+	tmp_line <= RAM(CONV_INTEGER(tmp_address(5 downto 4))); --Acha a linha pelo endereÃ§o do PC
 	
 	-- indicates if had a hit or miss (equal tags and bit valid = '1')
 	hit <= '1' when ( (tmp_line(153 downto 128) = address(31 downto 6)) and (tmp_line(154) = '1') ) else '0';
-	--Se a tag da cache for igual a tag do PC e o bit de validade for 1, hit, senão deu miss
+	--Se a tag da cache for igual a tag do PC e o bit de validade for 1, hit, senÃ£o deu miss
 	
 	-- mux to switch words
 	switch_word <= tmp_line(31 downto 0) when address(3 downto 2) = "11" else 
@@ -66,7 +66,7 @@ begin
 	-- READ (only valid if hit = '1')
    process(ce_n, oe_n, switch_word)
    begin
-		if(ce_n='0' and oe_n='0') then data <= switch_word; --Se a L1 tem o endereço, escreve na memória
+		if(ce_n='0' and oe_n='0') then data <= switch_word; --Se a L1 tem o endereÃ§o, escreve na memÃ³ria
 		end if;
    end process;
 	
