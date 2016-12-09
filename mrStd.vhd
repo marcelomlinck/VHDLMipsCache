@@ -5,7 +5,6 @@
 --
 --  MRstf -> verso standard, sem as multiplicaes/divises
 --
---  MR PROCESSOR   -   Ney Calazans / Fernando Moraes
 --
 --  ==> The top-level processor entity is MRstd
 --
